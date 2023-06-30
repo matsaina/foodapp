@@ -1,37 +1,37 @@
 class RecipesController < ApplicationController
   before_action :authenticate_user
-  def index 
+
+  def index
     if logged_in?
-      recipes = Recipes.all.includes(:user)
-      render json: recipes, include: user
-    else 
-      render json: {error: 'unauthorized'}, status: :unauthorized
+      recipes = Recipe.all.includes(:user)
+      render json: recipes, include: :user
+    else
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
   end
-end
 
-
-def create 
-  recipe = current_user.recipes.build(recipe_params)
-
+  def create
+    recipe = current_user.recipes.build(recipe_params)
     if recipe.save
-      render json: recipe, serializer: RecipeSerializer, status: :created
+      render json: recipe,  status: :created
     else
       render json: { errors: recipe.errors.full_messages }, status: :unprocessable_entity
-
+    end
   end
 
-end
+  private
 
-  private 
   def recipe_params
-    params.permit(:title,:instructions,:minutes_to_complete)
+    params.permit(:title, :instructions, :minutes_to_complete)
   end
-  def logged_in? 
+
+  def logged_in?
     session[:user_id].present?
   end
-  def authenticate_user 
-    unless logged_in? 
-      render json: {error: "Unauthorized"}, status: :unauthorized
+
+  def authenticate_user
+    unless logged_in?
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
   end
-end
 end
