@@ -5,7 +5,7 @@ class UsersController < ApplicationController
     user = User.create(user_params)
     if user.valid?
       session[:user_id] = user.id
-      render json: { id: user.id, username: user.username, image_url: user.image_url, bio: user.bio }, status: :created
+      render json: { id: user.id, username: user.username, address: user.address, phone: user.phone }, status: :created
     else
       render json: { error: user.errors.full_messages }, status: :unprocessable_entity
     end
@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.permit(:username, :password, :image_url, :bio, :password_confirmation)
+    params.permit(:username, :password, :address, :phone, :email, :password_confirmation)
   end
 
   def authenticate_user

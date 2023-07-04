@@ -10,7 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_06_30_084451) do
+ActiveRecord::Schema.define(version: 2023_07_04_123140) do
+
+  create_table "foods", force: :cascade do |t|
+    t.string "name"
+    t.integer "quantity"
+    t.integer "description"
+    t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "orderitems", force: :cascade do |t|
+    t.integer "order_id"
+    t.integer "food_id"
+    t.integer "quantity"
+    t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "quantity"
+    t.integer "price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "recipes", force: :cascade do |t|
     t.integer "user_id"
@@ -24,9 +50,10 @@ ActiveRecord::Schema.define(version: 2023_06_30_084451) do
 
   create_table "users", force: :cascade do |t|
     t.string "username"
+    t.string "email"
+    t.string "phone"
+    t.string "address"
     t.string "password_digest"
-    t.string "image_url"
-    t.string "bio"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
